@@ -1,6 +1,5 @@
 // CustomNode.js
-import React from 'react';
-import {nanoid} from 'nanoid';
+import React,{memo} from 'react';
 import { Handle } from 'reactflow';
 //문자 `{}`를 사용해서 색깔이 안들어갔음.
 
@@ -19,6 +18,7 @@ const CustomNode = ({ data}) => {
       };
     // 노드의 크기를 엣지의 수에 따라 동적으로 설정합니다.
     const nodeSize = 100 + data.edgeCount * 20;
+    
         
     
 
@@ -27,6 +27,19 @@ const CustomNode = ({ data}) => {
     <div key={data.id} className="customNode" onDoubleClick={handleNode2Click} 
          style={{position: 'relative', width: `${nodeSize}px`, height: `${nodeSize}px`,
                  borderRadius: '50%', background: data.color }}>
+
+
+      <div draggable style={{
+          position: 'absolute',
+          width: '10%',
+          height: '30%',
+          borderRadius: '5px',
+          backgroundColor: 'black', // 색상을 원하는 색으로 변경하세요
+          transform: 'rotate(45deg)',
+          top: '0',
+          left: '15px',}}/>
+
+
         <Handle type='source' position='bottom' id={'[source]'}/>
         <Handle className='customhandle'type='target' position="top" id={'[target]'}/>
       <div style={{ position: 'absolute', top: '50%', left: '50%',transform: 'translate(-50%, -50%)', 
@@ -36,6 +49,6 @@ const CustomNode = ({ data}) => {
       </div> 
     </div>
   );
-};// label를 정중ㅇ앙ㅇ에 위치 시키기 위해서 css를 카피해옴 절대위치를 스타일링 한다고 한다.
+};
 
-export default CustomNode;
+export default memo(CustomNode);
