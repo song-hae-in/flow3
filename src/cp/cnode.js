@@ -18,7 +18,7 @@ const CustomNode = ({ data}) => {
       };
     // 노드의 크기를 엣지의 수에 따라 동적으로 설정합니다.
     const nodeSize = 100 + data.edgeCount * 20;
-    
+
         
     
 
