@@ -1,13 +1,14 @@
 // CustomNode.js
 import React,{memo} from 'react';
-import { Handle } from 'reactflow';
-//문자 `{}`를 사용해서 색깔이 안들어갔음.
+import { Handle, useStore} from 'reactflow';
 
-//rgb색상의 보색을 계산하는 함수.
+const connectionNodeIdSelector = (state) => state.connectionNodeId;
 
 
 
 const CustomNode = ({ data}) => {
+  const connectionNodeId = useStore(connectionNodeIdSelector);
+  const isConnecting = !!connectionNodeId;
   
   // console.log("edgeCount:", data.edgeCount);
 
@@ -25,29 +26,66 @@ const CustomNode = ({ data}) => {
       
   return (//더블클릭 이벤트를 수집헤서 발생시 handleNodelClick을 작동
     <div key={data.id} className="customNode" onDoubleClick={handleNode2Click} 
-         style={{position: 'relative', width: `${nodeSize}px`, height: `${nodeSize}px`,
-                 borderRadius: '50%', background: data.color }}>
-
+        style={{
+          position: 'relative',
+          width: `${nodeSize}px`,
+          height: `${nodeSize}px`,
+          borderRadius: '50%',
+          background: data.color
+        }}>
 
       <div draggable style={{
+        position: 'absolute',
+        width: '10%',
+        height: '30%',
+        borderRadius: '5px',
+        backgroundColor: 'black',
+        transform: 'rotate(45deg)',
+        top: '0',
+        left: '15px',
+      }}/>
+
+      {!isConnecting && (
+        <Handle
+          type='source'
+          position='left'
+          id={'[source]'}
+          style={{
+            width: '50%',
+            height: '50%',
+            position: 'absolute',
+            opacity: 0,
+            left: '25%', 
+          }}
+        /> 
+      )}
+      <Handle
+        className='customhandle'
+        type='target'
+        position="left"
+        isConnectableStart={false}
+        id={'[target]'}
+        style={{
+          width: '50%',
+          height: '50%',
           position: 'absolute',
-          width: '10%',
-          height: '30%',
-          borderRadius: '5px',
-          backgroundColor: 'black', // 색상을 원하는 색으로 변경하세요
-          transform: 'rotate(45deg)',
-          top: '0',
-          left: '15px',}}/>
+          opacity: 0,
+          left: '25%', 
+        }}
+      />
 
-
-        <Handle type='source' position='bottom' id={'[source]'}/>
-        <Handle className='customhandle'type='target' position="top" id={'[target]'}/>
-      <div style={{ position: 'absolute', top: '50%', left: '50%',transform: 'translate(-50%, -50%)', 
-                    textAlign: 'center', fontSize:`${12+data.edgeCount*3}px`}}>
-
+      <div style={{
+        position: 'absolute',
+        top: '50%',
+        left: '50%',
+        transform: 'translate(-50%, -50%)',
+        textAlign: 'center',
+        fontSize: `${12 + data.edgeCount * 3}px`
+      }}>
         {data.label}
       </div> 
     </div>
+
   );
 };
 
