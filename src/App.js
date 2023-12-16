@@ -6,6 +6,7 @@ import ReactFlow, {
   applyEdgeChanges,
   applyNodeChanges,
   addEdge,
+  MarkerType,
 } from 'reactflow';
  
 import 'reactflow/dist/style.css';
@@ -68,7 +69,7 @@ const onEdgesChange = useCallback(
         if (change.type === 'remove') {
           const result = getNodeId(change.id);
           //console.log( result)
-          //console.log(change)
+          //console.log(change)s
    
 
 
@@ -102,7 +103,7 @@ const onEdgesChange = useCallback(
 
     
   const onConnect = useCallback( (connection) => {
-    const edge = { ...connection, type: 'CustomEdge' ,style:{strokeWidth:'5px'}};
+    const edge = { ...connection, type: 'CustomEdge' ,style:{strokeWidth:'5px'},MarkerEnd:{MarkerType:MarkerType.ArrowClosed}};
     console.log(connection)
   setNodes((ns)=> ns.map((node)=>{
     if (node.id === connection.source || node.id === connection.target){
